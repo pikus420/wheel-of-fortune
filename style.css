@@ -30,6 +30,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    caret-color: transparent;
 }
 
 .right{
@@ -39,9 +40,11 @@ body{
 }
 
 .phrasal{
-    font-size: 72px;
+    font-size: 52px;
     letter-spacing: 6px;
     word-spacing: 20px;
+    line-height: 1px;
+    text-align: center;
 }
 
 .log{
@@ -129,4 +132,28 @@ input[type=text]:focus, input[type=password]:focus{
     transition-duration: 3s;
     transform: rotate(0deg);
     border-radius: 50%;
+}
+
+.tile{
+    min-width: 60px;
+    min-height: 60px;
+    background-color: #000;
+    border: 2px solid #49c100;
+    color: #49c100;
+    border-radius: 4px;
+    display: inline-flex;
+    justify-content: center;
+    position: relative;
+}
+
+.tile div{
+    position: absolute;
+    top: 1ch;    
+}
+
+.empty{
+    border-radius: 0;
+    background-color: #3a415f;
+    border: 0px solid #000;
+    display: block;
 }

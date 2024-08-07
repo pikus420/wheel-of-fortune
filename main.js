@@ -20,6 +20,25 @@ function sendMessage(mess){
         eventLog.firstChild.remove();
 }
 
+function refreshDisplay(phrase){
+    phrasal.innerHTML = "";
+    const toDisplay = phrase.split("");
+    toDisplay.forEach(letter => {
+        const tile = document.createElement("div");
+        if(letter == "_"){
+            tile.classList = "tile";
+        }
+        else if(letter == " "){
+            tile.classList = "tile empty";
+        }
+        else{
+            tile.classList = "tile";
+            tile.innerHTML = `<div>${letter}</div>`;
+        }
+        phrasal.appendChild(tile);
+    });
+}
+
 playButton.addEventListener("click", ()=>{
     if(phraseInput.value == ""){
         sendMessage("Należy wpisać jakieś hasło.")
@@ -37,9 +56,12 @@ playButton.addEventListener("click", ()=>{
     }
     hiddenPhrase = hiddenPhrase.join("")
 
-    phrasal.innerText = hiddenPhrase;
+    refreshDisplay(hiddenPhrase);
+
     sendMessage("Rozpoczęto nową grę.");
     gameStarted = true;
+    phraseInput.style.opacity = 0.3;
+    playButton.style.opacity = 0.3;
 })
 
 
@@ -59,7 +81,7 @@ guessButton.addEventListener("click", ()=>{
     }
 
     if(counter > 0){
-        phrasal.innerText = hiddenPhrase;
+        refreshDisplay(hiddenPhrase);
         sendMessage(`${letter} występuje ${counter} raz(y).`);
         let onlyVowels = true;
         for(let i = 0; i < len; i++){
@@ -71,7 +93,7 @@ guessButton.addEventListener("click", ()=>{
                         notAVowel++;
                     }
                 }
-                if(notAVowel == 6){
+                if(notAVowel == vowels.length){
                     onlyVowels = false;
                     break;
                 }
