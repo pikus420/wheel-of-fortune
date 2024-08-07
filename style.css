@@ -1,0 +1,132 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 1fr 3fr 1.8fr;
+    font-family: 'Lato';
+}
+
+.left{
+    background-color: #313338;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.main{
+    background-color: #3a415f;
+    border-left: 7px solid #253063;
+    border-right: 7px solid #253063;
+    color: #49c100;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right{
+    background-color: #313338;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.phrasal{
+    font-size: 72px;
+    letter-spacing: 6px;
+    word-spacing: 20px;
+}
+
+.log{
+    background-color: #000;
+    font-family: 'Consolas';
+    border: 3px solid #111111;
+    color: #49c100;
+    width: 300px;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.guessing{
+    bottom: 0;
+}
+
+.log p{
+    margin-left: 15px;
+}
+
+
+input[type=button]
+{
+    cursor: pointer;
+    outline: 0;
+    color: #fff;
+    background-color: #42ac00;
+    border-color: #399500;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    font-size: 16px;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+}
+
+input[type=button]:hover 
+{
+    color: #fff;
+    background-color: #358900;
+    border-color: #389100;
+}
+
+input[type=text], input[type=password]
+{
+    padding: 6px 12px;
+    background: rgb(31, 32, 35);
+    border: 1px solid rgb(60, 63, 68);
+    border-radius: 4px;
+    font-size: 13px;
+    color: rgb(247, 248, 248);
+    height: 24px;
+    appearance: none;
+    transition: border 0.15s ease 0s;
+}
+
+input[type=text]:focus, input[type=password]:focus{
+    outline: none;
+    box-shadow: none;
+    border-color: #3b9b00;
+}
+
+.pointer {
+    width: 0.6%;
+    height: 100px;
+    margin: 0 49.7% 0 49.7%;
+    background: rgb(0, 0, 0);
+    position: relative;
+    z-index: 1;
+}
+
+.wheel {
+    caret-color: transparent;
+    height: 600px;
+    width: 600px;
+    background: url(kolo-fortuny.png);
+    background-size: contain;
+    margin: 0 auto;
+    margin-top: -50px;
+    transition: all;
+    transition-duration: 3s;
+    transform: rotate(0deg);
+    border-radius: 50%;
+}
