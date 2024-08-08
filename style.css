@@ -7,7 +7,7 @@ body{
     display: grid;
     width: 100%;
     height: 100%;
-    grid-template-columns: 1fr 3fr 1.8fr;
+    grid-template-columns: 1fr 3fr 2fr;
     font-family: 'Lato';
 }
 
@@ -33,11 +33,6 @@ body{
     caret-color: transparent;
 }
 
-.right{
-    background-color: #313338;
-    height: 100vh;
-    overflow: hidden;
-}
 
 .phrasal{
     font-size: 52px;
@@ -111,28 +106,46 @@ input[type=text]:focus, input[type=password]:focus{
     border-color: #3b9b00;
 }
 
-.pointer {
-    width: 0.6%;
-    height: 100px;
-    margin: 0 49.7% 0 49.7%;
-    background: rgb(0, 0, 0);
+.right{
+    background-color: #313338;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
+    
+}
+
+.pointer {
+    width: 1%;
+    height: 15%;
+    position: absolute;
+    top: -10%;
+    left: calc(50% - 0.25rem);
+    background: rgb(0, 0, 0);
     z-index: 1;
 }
 
 .wheel {
+    position: relative;   
     caret-color: transparent;
-    height: 600px;
-    width: 600px;
-    background: url(kolo-fortuny.png);
-    background-size: contain;
-    margin: 0 auto;
-    margin-top: -50px;
-    transition: all;
+    min-width: 90%;
+    aspect-ratio: 1/1;
+    background-image: url(kolo-fortuny.png);
+    background-size: cover;
+    background-position: left;
+    transition: transform;
     transition-duration: 3s;
     transform: rotate(0deg);
-    border-radius: 50%;
+    /* border-radius: 50% */
 }
+
+.guessbruh{
+    position: relative;
+    width: 100%;
+}
+
 
 .tile{
     min-width: 60px;
@@ -142,13 +155,17 @@ input[type=text]:focus, input[type=password]:focus{
     color: #49c100;
     border-radius: 4px;
     display: inline-flex;
-    justify-content: center;
     position: relative;
+    text-align: center !important;
 }
 
 .tile div{
+    width: 100%;
+    height: 100%;
     position: absolute;
-    top: 1ch;    
+    top: 1ch;
+    left: 3px;
+
 }
 
 .empty{
@@ -157,3 +174,16 @@ input[type=text]:focus, input[type=password]:focus{
     border: 0px solid #000;
     display: block;
 }
+
+
+
+@media only screen and (max-width: 800px) {
+    body{
+        grid-template-columns: 1fr;
+    }
+
+    .main{
+        border: 7px solid #253063;
+    }
+
+  }
