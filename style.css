@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
 *{
     padding: 0;
     margin: 0;
@@ -8,7 +10,7 @@ body{
     width: 100%;
     height: 100%;
     grid-template-columns: 1fr 3fr 2fr;
-    font-family: 'Lato';
+    font-family: 'Lato', sans-serif;
 }
 
 .left{
@@ -43,12 +45,13 @@ body{
 }
 
 .log{
+    padding-top: 10px;
     background-color: #000;
     font-family: 'Consolas';
     border: 3px solid #111111;
     color: #49c100;
     width: 300px;
-    height: 300px;
+    height: 170px;
     overflow-y: auto;
 }
 
@@ -156,7 +159,7 @@ input[type=text]:focus, input[type=password]:focus{
     border-radius: 4px;
     display: inline-flex;
     position: relative;
-    text-align: center !important;
+    text-align: center;
 }
 
 .tile div{

@@ -6,6 +6,7 @@ const letterInput = document.querySelectorAll(".letterInput")[0];
 const guessButton = document.querySelectorAll(".guessButton")[0];
 const eventLog = document.querySelectorAll(".log")[0];
 const wheelOfFortune = document.querySelectorAll('.wheel')[0];
+const showButton = document.querySelectorAll('.showButton')[0];
 const vowels = ['A', 'E', 'I', 'O', 'U', 'Y', "Ą", "Ę", "Ó"];
 let phrase = "";
 let hiddenPhrase = [];
@@ -39,12 +40,13 @@ function refreshDisplay(phrase){
     });
 }
 
+//nowa gra
 playButton.addEventListener("click", ()=>{
     if(phraseInput.value == ""){
         sendMessage("Należy wpisać jakieś hasło.")
         return;
     }
-
+    eventLog.innerHTML = ""
     phrase = phrase.replace(phrase, phraseInput.value.toUpperCase());
     phraseInput.value = "";
     hiddenPhrase = phrase.split("");
@@ -64,7 +66,7 @@ playButton.addEventListener("click", ()=>{
     playButton.style.opacity = 0.3;
 })
 
-
+//zgadywanie literek
 guessButton.addEventListener("click", ()=>{
     if(!gameStarted)
         return;
@@ -106,6 +108,13 @@ guessButton.addEventListener("click", ()=>{
     else{
         sendMessage(`${letter} nie występuje w haśle.`);
     }
+})
+
+//pokazywanie całego hasła
+showButton.addEventListener("click", ()=>{
+    if(!gameStarted)
+        return;
+    refreshDisplay(phrase);
 })
 
 wheelOfFortune.addEventListener("click", ()=>{
