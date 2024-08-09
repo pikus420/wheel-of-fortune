@@ -12,6 +12,7 @@ let phrase = "";
 let hiddenPhrase = [];
 let len = 0;
 let gameStarted = false;
+let spinValue = 0;
 
 function sendMessage(mess){
     const message = document.createElement("p");
@@ -118,9 +119,9 @@ showButton.addEventListener("click", ()=>{
 })
 
 wheelOfFortune.addEventListener("click", ()=>{
-    let randomSpin = Math.floor(Math.random() * 500) * 20;
-
-    const rotation = 'rotate' + '(' + randomSpin + 'deg' + ')';
+    let randomSpin = Math.floor(Math.random() * 3700) + 300;
+    spinValue += randomSpin;
+    const rotation = 'rotate' + '(' + spinValue + 'deg' + ')';
 
     wheelOfFortune.style.transform = rotation; 
 })
