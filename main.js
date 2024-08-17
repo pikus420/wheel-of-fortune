@@ -45,6 +45,20 @@ function refreshDisplay(phrase){
     });
 }
 
+function disableInput(input) {
+    input.style.opacity = 0.3;
+    input.disabled = true;
+}
+
+function enableInput(input) {
+    input.style.opacity = 1;
+    input.disabled = false;
+}
+
+disableInput(letterInput);
+disableInput(guessButton);
+disableInput(showButton);
+
 //nowa gra
 playButton.addEventListener("click", ()=>{
     if(phraseInput.value == ""){
@@ -73,8 +87,12 @@ playButton.addEventListener("click", ()=>{
 
     sendMessage("Rozpoczęto nową grę.");
     gameStarted = true;
-    phraseInput.style.opacity = 0.3;
-    playButton.style.opacity = 0.3;
+    disableInput(phraseInput);
+    disableInput(playButton);
+
+    enableInput(letterInput);
+    enableInput(guessButton);
+    enableInput(showButton);
 })
 
 //zgadywanie literek
@@ -102,7 +120,7 @@ guessButton.addEventListener("click", ()=>{
 
     if(counter > 0){
         refreshDisplay(hiddenPhrase);
-        sendMessage(`${letter} występuje ${counter} raz(y).`);
+        sendMessage(`Ta litera występuje ${counter} raz(y).`);
         let onlyVowels = true;
         for(let i = 0; i < len; i++){
             let notAVowel = 0;
@@ -133,6 +151,14 @@ showButton.addEventListener("click", ()=>{
     if(!gameStarted)
         return;
     refreshDisplay(phrase);
+    sendMessage("Odsłonięto hasło.");
+    gameStarted = false;
+    enableInput(phraseInput);
+    enableInput(playButton);
+
+    disableInput(letterInput);
+    disableInput(guessButton);
+    disableInput(showButton);
 })
 
 wheelOfFortune.addEventListener("click", ()=>{
