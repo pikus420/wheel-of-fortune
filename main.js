@@ -18,6 +18,36 @@ let wheelValues = ["300", "200", "150", "NAGRODA", "250", "1500", "BANKRUT", "10
 let whichField = 0;
 wheelValues.reverse(); //bo kręci się w lewo xD
 
+phraseInput.focus();
+
+function disableInput(input) {
+    input.style.opacity = 0.3;
+    input.disabled = true;
+}
+
+function enableInput(input) {
+    input.style.opacity = 1;
+    input.disabled = false;
+}
+
+function inputsWhenNoGame() {
+    enableInput(phraseInput);
+    enableInput(playButton);
+    disableInput(letterInput);
+    disableInput(guessButton);
+    disableInput(showButton);
+}
+
+function inputsWhenGame() {
+    disableInput(phraseInput);
+    disableInput(playButton);
+    enableInput(letterInput);
+    enableInput(guessButton);
+    enableInput(showButton);
+}
+
+inputsWhenNoGame();
+
 function sendMessage(mess){
     const message = document.createElement("p");
     message.innerText = mess;
@@ -45,22 +75,64 @@ function refreshDisplay(phrase){
     });
 }
 
-function disableInput(input) {
-    input.style.opacity = 0.3;
-    input.disabled = true;
-}
+//zgadywanie literek
+function letterGuessing() {
+    if(!gameStarted)
+        return;
 
-function enableInput(input) {
-    input.style.opacity = 1;
-    input.disabled = false;
-}
+    let letter = letterInput.value[0].toUpperCase();
+    letterInput.value = "";
+    
+    if(letter == "." || letter == "," || letter == ":" || letter == "\'" || letter == " " || letter == "?" || letter == "!"){
+        sendMessage(`Nieprawidłowy znak!`);
+        return;
+    }
 
-disableInput(letterInput);
-disableInput(guessButton);
-disableInput(showButton);
+    let counter = 0;
+    for(let i = 0; i < len; i++){
+
+        if(phrase[i] == letter){
+            counter++;
+            hiddenPhrase = hiddenPhrase.substring(0, i) + letter + hiddenPhrase.substring(i + 1);
+        }
+            
+    }
+    if(counter > 0){
+        refreshDisplay(hiddenPhrase);
+        sendMessage(`Ta litera występuje ${counter} raz(y).`);
+        let onlyVowels = true;
+        let guessed = true;
+        for(let i = 0; i < len; i++){
+            let notAVowel = 0;
+            if(hiddenPhrase[i] == "_"){
+                guessed = false;
+                for(let j = 0; j < vowels.length; j++){
+                    
+                    if(phrase[i] != vowels[j]){
+                        notAVowel++;
+                    }
+                }
+                if(notAVowel == vowels.length){
+                    onlyVowels = false;
+                    break;
+                }
+            }
+        }
+        if(onlyVowels)
+            sendMessage(`Nie ma już spółgłosek!!`);
+        if (guessed) {
+            sendMessage(`Odgadnięto hasło.`);
+            inputsWhenNoGame();
+        }
+
+    }
+    else{
+        sendMessage(`${letter} nie występuje w haśle.`);
+    }
+}
 
 //nowa gra
-playButton.addEventListener("click", ()=>{
+function gameStart() {
     if(phraseInput.value == ""){
         sendMessage("Należy wpisać jakieś hasło.")
         return;
@@ -87,63 +159,18 @@ playButton.addEventListener("click", ()=>{
 
     sendMessage("Rozpoczęto nową grę.");
     gameStarted = true;
-    disableInput(phraseInput);
-    disableInput(playButton);
+    guessed = 0;
+    inputsWhenGame();
+}
 
-    enableInput(letterInput);
-    enableInput(guessButton);
-    enableInput(showButton);
+playButton.addEventListener("click", gameStart);
+phraseInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") gameStart();
 })
 
-//zgadywanie literek
-guessButton.addEventListener("click", ()=>{
-    if(!gameStarted)
-        return;
-
-    let letter = letterInput.value[0].toUpperCase();
-    letterInput.value = "";
-    
-    if(letter == "." || letter == "," || letter == ":" || letter == "\'" || letter == " " || letter == "?" || letter == "!"){
-        sendMessage(`Nieprawidłowy znak!`);
-        return;
-    }
-
-    let counter = 0;
-    for(let i = 0; i < len; i++){
-
-        if(phrase[i] == letter){
-            counter++;
-            hiddenPhrase = hiddenPhrase.substring(0, i) + letter + hiddenPhrase.substring(i + 1);
-        }
-            
-    }
-
-    if(counter > 0){
-        refreshDisplay(hiddenPhrase);
-        sendMessage(`Ta litera występuje ${counter} raz(y).`);
-        let onlyVowels = true;
-        for(let i = 0; i < len; i++){
-            let notAVowel = 0;
-            if(hiddenPhrase[i] == "_"){
-                for(let j = 0; j < vowels.length; j++){
-                    
-                    if(phrase[i] != vowels[j]){
-                        notAVowel++;
-                    }
-                }
-                if(notAVowel == vowels.length){
-                    onlyVowels = false;
-                    break;
-                }
-            }
-        }
-        if(onlyVowels)
-            sendMessage(`Nie ma już spółgłosek!!`);
-
-    }
-    else{
-        sendMessage(`${letter} nie występuje w haśle.`);
-    }
+guessButton.addEventListener("click", letterGuessing);
+letterInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") letterGuessing();
 })
 
 //pokazywanie całego hasła
@@ -153,12 +180,7 @@ showButton.addEventListener("click", ()=>{
     refreshDisplay(phrase);
     sendMessage("Odsłonięto hasło.");
     gameStarted = false;
-    enableInput(phraseInput);
-    enableInput(playButton);
-
-    disableInput(letterInput);
-    disableInput(guessButton);
-    disableInput(showButton);
+    inputsWhenNoGame();
 })
 
 wheelOfFortune.addEventListener("click", ()=>{
@@ -184,6 +206,7 @@ wheelOfFortune.addEventListener("click", ()=>{
     } while (true);
     setTimeout(function(){
         sendMessage(`Wylosowana wartość: ${wheelValues[whichField]}`);
-    }, 3000);;    
+        letterInput.focus();
+    }, 3000);
 })
 
