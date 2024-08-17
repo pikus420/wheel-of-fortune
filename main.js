@@ -59,7 +59,9 @@ playButton.addEventListener("click", ()=>{
                 if(hiddenPhrase[i] != ".")
                     if(hiddenPhrase[i] != ":")
                         if(hiddenPhrase[i] != "\'")
-                            hiddenPhrase[i] = "_";
+                            if(hiddenPhrase[i] != "?")
+                                if(hiddenPhrase[i] != "!")
+                                    hiddenPhrase[i] = "_";
     }
     hiddenPhrase = hiddenPhrase.join("")
 
@@ -79,7 +81,7 @@ guessButton.addEventListener("click", ()=>{
     let letter = letterInput.value[0].toUpperCase();
     letterInput.value = "";
     
-    if(letter == "." || letter == "," || letter == ":" || letter == "\'" || letter == " "){
+    if(letter == "." || letter == "," || letter == ":" || letter == "\'" || letter == " " || letter == "?" || letter == "!"){
         sendMessage(`Nieprawidłowy znak!`);
         return;
     }
