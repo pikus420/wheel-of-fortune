@@ -55,7 +55,11 @@ playButton.addEventListener("click", ()=>{
 
     for(let i = 0; i < len; i++){   
         if(hiddenPhrase[i] != " ")
-            hiddenPhrase[i] = "_";
+            if(hiddenPhrase[i] != ",")
+                if(hiddenPhrase[i] != ".")
+                    if(hiddenPhrase[i] != ":")
+                        if(hiddenPhrase[i] != "\'")
+                            hiddenPhrase[i] = "_";
     }
     hiddenPhrase = hiddenPhrase.join("")
 
@@ -71,8 +75,15 @@ playButton.addEventListener("click", ()=>{
 guessButton.addEventListener("click", ()=>{
     if(!gameStarted)
         return;
+
     let letter = letterInput.value[0].toUpperCase();
     letterInput.value = "";
+    
+    if(letter == "." || letter == "," || letter == ":" || letter == "\'" || letter == " "){
+        sendMessage(`Nieprawidłowy znak!`);
+        return;
+    }
+
     let counter = 0;
     for(let i = 0; i < len; i++){
 
