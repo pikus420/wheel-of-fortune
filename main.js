@@ -13,6 +13,10 @@ let hiddenPhrase = [];
 let len = 0;
 let gameStarted = false;
 let spinValue = 0;
+let spinValueTemp = 0;
+let wheelValues = ["300", "200", "150", "NAGRODA", "250", "1500", "BANKRUT", "1000", "150", "400", "250", "GRAJ DALEJ", "STOP", "500", "250", "400", "350", "1000", "200", "300", "NIESPODZIANKA", "400", "250", "200"]
+let whichField = 0;
+wheelValues.reverse(); //bo kręci się w lewo xD
 
 function sendMessage(mess){
     const message = document.createElement("p");
@@ -132,10 +136,28 @@ showButton.addEventListener("click", ()=>{
 })
 
 wheelOfFortune.addEventListener("click", ()=>{
+    //kręcenie się koła
     let randomSpin = Math.floor(Math.random() * 3700) + 300;
     spinValue += randomSpin;
+    spinValueTemp += randomSpin;
     const rotation = 'rotate' + '(' + spinValue + 'deg' + ')';
+    wheelOfFortune.style.transform = rotation;
 
-    wheelOfFortune.style.transform = rotation; 
+    //wyświetlanie wartości z koła
+    while (spinValueTemp >= 360) {
+        spinValueTemp -= 360;
+    }
+    do {
+        if (spinValueTemp > -7.5 && spinValueTemp < 7.5){
+            break;
+        } else {
+            spinValueTemp -= 15;
+            whichField += 1;
+            if (whichField == 24) whichField = 0;
+        }
+    } while (true);
+    setTimeout(function(){
+        sendMessage(`Wylosowana wartość: ${wheelValues[whichField]}`);
+    }, 3000);;    
 })
 
