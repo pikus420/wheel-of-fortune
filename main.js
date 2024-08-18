@@ -106,7 +106,10 @@ function letterGuessing() {
 
     let counter = 0;
     for(let i = 0; i < len; i++){
-
+        if(hiddenPhrase[i] == letter) {
+            sendMessage(`Ta litera jest już odsłonięta.`);
+            return;
+        }
         if(phrase[i] == letter){
             counter++;
             hiddenPhrase = hiddenPhrase.substring(0, i) + letter + hiddenPhrase.substring(i + 1);
