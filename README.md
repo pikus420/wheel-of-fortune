@@ -1,5 +1,7 @@
-EN
-A simple implementation of a game "Wheel of Fortune" in JS. 
+# WHEEL OF FORTUNE / KOŁO FORTUNY
 
-PL
+## EN
+A simple implementation of the game "Wheel of Fortune" in JS. 
+
+## PL
 Prosta implementacja gry "Koło Fortuny" w JS.

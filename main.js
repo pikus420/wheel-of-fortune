@@ -14,7 +14,7 @@ let len = 0;
 let gameStarted = false;
 let spinValue = 0;
 let spinValueTemp = 0;
-let wheelValues = ["300", "200", "150", "NAGRODA", "250", "1500", "BANKRUT", "1000", "150", "400", "250", "GRAJ DALEJ", "STOP", "500", "250", "400", "350", "1000", "200", "300", "NIESPODZIANKA", "400", "250", "200"]
+let wheelValues = [300, 200, 150, "NAGRODA", 250, 1500, "BANKRUT", 1000, 150, 400, 250, "GRAJ DALEJ", "STOP", 500, 250, 400, 350, 1000, 200, 300, "NIESPODZIANKA", 400, 250, 200]
 let whichField = 0;
 wheelValues.reverse(); //bo kręci się w lewo xD
 
@@ -79,6 +79,10 @@ function refreshDisplay(phrase){
 function letterGuessing() {
     if(!gameStarted)
         return;
+    else if (wheelValues[whichField] == "STOP" || wheelValues[whichField] == "BANKRUT") {
+        sendMessage(`Nie powinno się odgadywać litery na tym polu...`);
+        return;
+    }
 
     let letter = letterInput.value[0].toUpperCase();
     letterInput.value = "";
@@ -87,6 +91,18 @@ function letterGuessing() {
         sendMessage(`Nieprawidłowy znak!`);
         return;
     }
+
+    let isVowel = false;
+    for (let i = 0; i < vowels.length; i++) {
+        if (letter == vowels[i]) {
+            isVowel = true;
+            break;
+        }
+    }
+    if (isVowel) {
+        if (wheelValues[whichField] != "GRAJ DALEJ") 
+            sendMessage(`Pobrano 200 punktów.`);
+    } 
 
     let counter = 0;
     for(let i = 0; i < len; i++){
@@ -97,9 +113,18 @@ function letterGuessing() {
         }
             
     }
+
     if(counter > 0){
         refreshDisplay(hiddenPhrase);
         sendMessage(`Ta litera występuje ${counter} raz(y).`);
+
+        if (!isVowel) {
+            if (wheelValues[whichField] == "NAGRODA" || wheelValues[whichField] == "NIESPODZIANKA" || wheelValues[whichField] == "GRAJ DALEJ")
+                sendMessage(`Uzyskano ` + counter * 500 + ` punktów.`);
+            else
+                sendMessage(`Uzyskano ` + counter * wheelValues[whichField] + ` punktów.`);
+        }
+        
         let onlyVowels = true;
         let guessed = true;
         for(let i = 0; i < len; i++){
@@ -127,21 +152,21 @@ function letterGuessing() {
 
     }
     else{
-        sendMessage(`${letter} nie występuje w haśle.`);
+        sendMessage(`Ta litera nie występuje w haśle.`);
     }
 }
 
 //nowa gra
 function gameStart() {
     if(phraseInput.value == ""){
-        sendMessage("Należy wpisać jakieś hasło.")
+        sendMessage("Należy wpisać jakieś hasło.");
         return;
     }
-    eventLog.innerHTML = ""
+    eventLog.innerHTML = "";
     phrase = phrase.replace(phrase, phraseInput.value.toUpperCase());
     phraseInput.value = "";
     hiddenPhrase = phrase.split("");
-    len = hiddenPhrase.length
+    len = hiddenPhrase.length;
 
     for(let i = 0; i < len; i++){   
         if(hiddenPhrase[i] != " ")
@@ -153,7 +178,7 @@ function gameStart() {
                                 if(hiddenPhrase[i] != "!")
                                     hiddenPhrase[i] = "_";
     }
-    hiddenPhrase = hiddenPhrase.join("")
+    hiddenPhrase = hiddenPhrase.join("");
 
     refreshDisplay(hiddenPhrase);
 
@@ -196,12 +221,13 @@ wheelOfFortune.addEventListener("click", ()=>{
         spinValueTemp -= 360;
     }
     do {
-        if (spinValueTemp > -7.5 && spinValueTemp < 7.5){
+        if (spinValueTemp > -7.5 && spinValueTemp < 7.5) {
             break;
         } else {
             spinValueTemp -= 15;
             whichField += 1;
-            if (whichField == 24) whichField = 0;
+            if (whichField == 24)
+                whichField = 0;
         }
     } while (true);
     setTimeout(function(){
