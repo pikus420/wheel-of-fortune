@@ -146,7 +146,7 @@ input[type=text]:focus, input[type=password]:focus{
     transition: transform;
     transition-duration: 6s;
     transform: rotate(0deg);
-    transition-timing-function: cubic-bezier(.21,.02,.13,1)
+    transition-timing-function: cubic-bezier(.15,0,.13,1)
     /* border-radius: 50% */
 }
 

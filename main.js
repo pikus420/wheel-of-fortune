@@ -7,6 +7,7 @@ const guessButton = document.querySelectorAll(".guessButton")[0];
 const eventLog = document.querySelectorAll(".log")[0];
 const wheelOfFortune = document.querySelectorAll('.wheel')[0];
 const showButton = document.querySelectorAll('.showButton')[0];
+const spinButton = document.querySelectorAll('.spinButton')[0];
 const vowels = ['A', 'E', 'I', 'O', 'U', 'Y', "Ą", "Ę", "Ó"];
 let phrase = "";
 let hiddenPhrase = [];
@@ -249,17 +250,18 @@ wheelOfFortune.addEventListener("click", ()=>{
     }, 6000);
 })
 
-// do kręcenia kołem, wip
-// let testvalue = 30;
-// let Interval;
-// playButton.addEventListener("mousedown", function() {
-//     Interval = setInterval(function() {
-//         if (testvalue < 120) testvalue += 1;
-//      }, 25);
-// });
+let spinPower = 30;
+let Interval;
+spinButton.addEventListener("mousedown", function() {
+    Interval = setInterval(function() {
+        if (spinPower < 150) spinPower += 1;
+     }, 20);
+});
 
-// playButton.addEventListener("mouseup", function() {
-//     clearInterval(Interval);
-//     console.log(Math.floor(Math.random() * 60 + 300) * testvalue / 30);
-//     testvalue = 30;
-// });
+spinButton.addEventListener("mouseup", function() {
+    clearInterval(Interval);
+    spinValue += Math.floor(Math.random() * 60 + 300) * spinPower / 30
+    const rotation = `rotate(${spinValue}deg)`;
+    wheelOfFortune.style.transform = rotation;
+    spinPower = 30;
+});
