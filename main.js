@@ -236,6 +236,20 @@ wheelOfFortune.addEventListener("click", ()=>{
     setTimeout(function(){
         sendMessage(`Wylosowana wartość: ${wheelValues[whichField]}`);
         letterInput.focus();
-    }, 3000);
+    }, 6000);
 })
 
+// do kręcenia kołem, wip
+// let testvalue = 30;
+// let Interval;
+// playButton.addEventListener("mousedown", function() {
+//     Interval = setInterval(function() {
+//         if (testvalue < 120) testvalue += 1;
+//      }, 25);
+// });
+
+// playButton.addEventListener("mouseup", function() {
+//     clearInterval(Interval);
+//     console.log(Math.floor(Math.random() * 60 + 300) * testvalue / 30);
+//     testvalue = 30;
+// });
