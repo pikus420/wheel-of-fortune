@@ -58,8 +58,13 @@ function sendMessage(mess){
 
 function refreshDisplay(phrase){
     phrasal.innerHTML = "";
-    const toDisplay = phrase.split("");
-    toDisplay.forEach(letter => {
+    const toDisplay = phrase.split(" ");
+
+    toDisplay.forEach(word => {
+    const wordContainer = document.createElement("div");
+    wordContainer.className = "word";
+    const wordArray = word.split("");
+    wordArray.forEach(letter => {
         const tile = document.createElement("div");
         if(letter == "_"){
             tile.classList = "tile";
@@ -71,9 +76,14 @@ function refreshDisplay(phrase){
             tile.classList = "tile";
             tile.innerHTML = `<div>${letter}</div>`;
         }
-        phrasal.appendChild(tile);
-    });
+        wordContainer.appendChild(tile);
+    })
+
+    phrasal.appendChild(wordContainer);
+    })
 }
+
+
 
 //zgadywanie literek
 function letterGuessing() {
