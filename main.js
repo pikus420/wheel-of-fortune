@@ -9,6 +9,7 @@ const wheelOfFortune = document.querySelectorAll('.wheel')[0];
 const showButton = document.querySelectorAll('.showButton')[0];
 const spinButton = document.querySelectorAll('.spinButton')[0];
 const vowels = ['A', 'E', 'I', 'O', 'U', 'Y', "Ą", "Ę", "Ó"];
+const spinDuration = 6000;
 let phrase = "";
 let hiddenPhrase = [];
 let len = 0;
@@ -224,10 +225,10 @@ showButton.addEventListener("click", ()=>{
 
 wheelOfFortune.addEventListener("click", ()=>{
     //kręcenie się koła
-    let randomSpin = Math.floor(Math.random() * 3700) + 300;
-    spinValue += randomSpin;
-    spinValueTemp += randomSpin;
-    const rotation = 'rotate' + '(' + spinValue + 'deg' + ')';
+    let spin = Math.floor(Math.random() * 3700) + 300;
+    spinValue += spin;
+    spinValueTemp += spin;
+    const rotation = `rotate(${spinValue}deg)`;
     wheelOfFortune.style.transform = rotation;
 
     //wyświetlanie wartości z koła
@@ -247,21 +248,27 @@ wheelOfFortune.addEventListener("click", ()=>{
     setTimeout(function(){
         sendMessage(`Wylosowana wartość: ${wheelValues[whichField]}`);
         letterInput.focus();
-    }, 6000);
+    }, spinDuration);
 })
+
+
 
 let spinPower = 30;
 let Interval;
-spinButton.addEventListener("mousedown", function() {
-    Interval = setInterval(function() {
-        if (spinPower < 150) spinPower += 1;
-     }, 20);
-});
+const myBar = document.getElementById("myBar");
+spinButton.addEventListener("mousedown", move);
+
+function move() {
+    myBar.classList.add("whenLoading");
+    Interval = setInterval(() => {if (spinPower < 150) spinPower++;}, 15);
+}
 
 spinButton.addEventListener("mouseup", function() {
+    console.log(spinPower)
     clearInterval(Interval);
     spinValue += Math.floor(Math.random() * 60 + 300) * spinPower / 30
     const rotation = `rotate(${spinValue}deg)`;
     wheelOfFortune.style.transform = rotation;
     spinPower = 30;
+    myBar.classList.remove("whenLoading");
 });
