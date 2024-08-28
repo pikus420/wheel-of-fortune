@@ -8,6 +8,7 @@ const eventLog = document.querySelectorAll(".log")[0];
 const wheelOfFortune = document.querySelectorAll('.wheel')[0];
 const showButton = document.querySelectorAll('.showButton')[0];
 const spinButton = document.querySelectorAll('.spinButton')[0];
+const myBar = document.getElementById("myBar");
 const vowels = ['A', 'E', 'I', 'O', 'U', 'Y', "Ą", "Ę", "Ó"];
 const spinDuration = 6000;
 let phrase = "";
@@ -223,9 +224,14 @@ showButton.addEventListener("click", ()=>{
     inputsWhenNoGame();
 })
 
-wheelOfFortune.addEventListener("click", ()=>{
-    //kręcenie się koła
-    let spin = Math.floor(Math.random() * 3700) + 300;
+//kręcenie się koła
+function wheelSpinning(ifRand) {
+    let spin = 0;
+    if (ifRand == 0)
+        spin = Math.floor(Math.random() * 3700) + 300;
+    else 
+        spin = Math.floor(Math.random() * 60 + 300) * spinPower / 30;
+    
     spinValue += spin;
     spinValueTemp += spin;
     const rotation = `rotate(${spinValue}deg)`;
@@ -249,26 +255,28 @@ wheelOfFortune.addEventListener("click", ()=>{
         sendMessage(`Wylosowana wartość: ${wheelValues[whichField]}`);
         letterInput.focus();
     }, spinDuration);
+
+}
+
+// tu gdy kliknie się na koło
+wheelOfFortune.addEventListener("click", function() {
+    let x = 0;
+    wheelSpinning(0);
 })
 
-
-
+//tu gdy ładuje się pasek siły
 let spinPower = 30;
 let Interval;
-const myBar = document.getElementById("myBar");
-spinButton.addEventListener("mousedown", move);
 
-function move() {
+spinButton.addEventListener("mousedown", function() {
     myBar.classList.add("whenLoading");
     Interval = setInterval(() => {if (spinPower < 150) spinPower++;}, 15);
-}
+});
 
 spinButton.addEventListener("mouseup", function() {
     console.log(spinPower)
     clearInterval(Interval);
-    spinValue += Math.floor(Math.random() * 60 + 300) * spinPower / 30
-    const rotation = `rotate(${spinValue}deg)`;
-    wheelOfFortune.style.transform = rotation;
+    wheelSpinning(1);
     spinPower = 30;
     myBar.classList.remove("whenLoading");
 });
