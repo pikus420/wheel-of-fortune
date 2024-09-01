@@ -1,3 +1,8 @@
+let data;
+fetch("data.json").then(res=>res.json()).then(x => {
+    data = x;
+});
+
 const phrasal = document.querySelectorAll(".phrasal")[0];
 const phraseInput = document.querySelectorAll(".phraseInput")[0];
 const playButton = document.querySelectorAll(".playButton")[0];
@@ -19,9 +24,13 @@ let spinValue = 0;
 let spinValueTemp = 0;
 let wheelValues = [300, 200, 150, "NAGRODA", 250, 1500, "BANKRUT", 1000, 150, 400, 250, "GRAJ DALEJ", "STOP", 500, 250, 400, 350, 1000, 200, 300, "NIESPODZIANKA", 400, 250, 200]
 let whichField = 0;
-wheelValues.reverse(); //bo kręci się w lewo xD
 
-phraseInput.focus();
+
+function main(){
+    wheelValues.reverse(); //bo kręci się w lewo xD
+    phraseInput.focus();
+    inputsWhenNoGame();
+}
 
 function disableInput(input) {
     input.style.opacity = 0.3;
@@ -49,7 +58,7 @@ function inputsWhenGame() {
     enableInput(showButton);
 }
 
-inputsWhenNoGame();
+
 
 function sendMessage(mess){
     const message = document.createElement("p");
@@ -174,13 +183,20 @@ function letterGuessing() {
 
 //nowa gra
 function gameStart() {
-    if(phraseInput.value == ""){
-        sendMessage("Należy wpisać jakieś hasło.");
-        return;
-    }
     eventLog.innerHTML = "";
-    phrase = phrase.replace(phrase, phraseInput.value.toUpperCase());
-    phraseInput.value = "";
+    sendMessage("Rozpoczęto nową grę.");
+    if(phraseInput.value == ""){
+        const dataLength = data.phrases.length;
+        let randomPhraseId = Math.floor(Math.random() * dataLength);
+        sendMessage("Wylosowano hasło z puli.");
+        phrase = phrase.replace(phrase, data.phrases[randomPhraseId][0].toUpperCase());
+    }
+    else
+    {
+        phrase = phrase.replace(phrase, phraseInput.value.toUpperCase());
+        phraseInput.value = "";
+    }
+    
     hiddenPhrase = phrase.split("");
     len = hiddenPhrase.length;
 
@@ -197,8 +213,6 @@ function gameStart() {
     hiddenPhrase = hiddenPhrase.join("");
 
     refreshDisplay(hiddenPhrase);
-
-    sendMessage("Rozpoczęto nową grę.");
     gameStarted = true;
     guessed = 0;
     inputsWhenGame();
