@@ -25,12 +25,9 @@ let spinValueTemp = 0;
 let wheelValues = [300, 200, 150, "NAGRODA", 250, 1500, "BANKRUT", 1000, 150, 400, 250, "GRAJ DALEJ", "STOP", 500, 250, 400, 350, 1000, 200, 300, "NIESPODZIANKA", 400, 250, 200]
 let whichField = 0;
 
-
-function main(){
-    wheelValues.reverse(); //bo kręci się w lewo xD
-    phraseInput.focus();
-    inputsWhenNoGame();
-}
+wheelValues.reverse(); //bo kręci się w lewo xD
+phraseInput.focus();
+inputsWhenNoGame();
 
 function disableInput(input) {
     input.style.opacity = 0.3;
