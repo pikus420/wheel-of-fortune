@@ -55,8 +55,6 @@ function inputsWhenGame() {
     enableInput(showButton);
 }
 
-
-
 function sendMessage(mess){
     const message = document.createElement("p");
     message.innerText = mess;
@@ -92,8 +90,6 @@ function refreshDisplay(phrase){
     })
 }
 
-
-
 //zgadywanie literek
 function letterGuessing() {
     if(!gameStarted)
@@ -106,7 +102,7 @@ function letterGuessing() {
     let letter = letterInput.value[0].toUpperCase();
     letterInput.value = "";
     
-    if(letter == "." || letter == "," || letter == ":" || letter == "\'" || letter == " " || letter == "?" || letter == "!"){
+    if(letter == "." || letter == "," || letter == ":" || letter == "\'" || letter == " " || letter == "?" || letter == "!" || letter == "-"){
         sendMessage(`Nieprawidłowy znak!`);
         return;
     }
@@ -186,6 +182,7 @@ function gameStart() {
         const dataLength = data.phrases.length;
         let randomPhraseId = Math.floor(Math.random() * dataLength);
         sendMessage("Wylosowano hasło z puli.");
+        sendMessage(`Kategoria hasła: ${data.phrases[randomPhraseId][1]}`);
         phrase = phrase.replace(phrase, data.phrases[randomPhraseId][0].toUpperCase());
     }
     else
@@ -205,7 +202,8 @@ function gameStart() {
                         if(hiddenPhrase[i] != "\'")
                             if(hiddenPhrase[i] != "?")
                                 if(hiddenPhrase[i] != "!")
-                                    hiddenPhrase[i] = "_";
+                                    if(hiddenPhrase[i] != "-")
+                                        hiddenPhrase[i] = "_";
     }
     hiddenPhrase = hiddenPhrase.join("");
 
@@ -271,7 +269,6 @@ function wheelSpinning(ifRand) {
 
 // tu gdy kliknie się na koło
 wheelOfFortune.addEventListener("click", function() {
-    let x = 0;
     wheelSpinning(0);
 })
 
