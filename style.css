@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cousine:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 *{
     padding: 0;
@@ -10,7 +10,7 @@ body{
     width: 100%;
     height: 100%;
     grid-template-columns: 1fr 3fr 2fr;
-    font-family: 'Lato', sans-serif;
+    font-family: "Cousine", monospace;
 }
 
 .left{
@@ -157,7 +157,7 @@ input[type=text]:focus, input[type=password]:focus{
 
 
 .tile{
-    min-width: 60px;
+    min-width: 40px;
     min-height: 60px;
     background-color: #000;
     border: 2px solid #49c100;
@@ -172,7 +172,7 @@ input[type=text]:focus, input[type=password]:focus{
     width: 100%;
     height: 100%;
     position: absolute;
-    top: 1ch;
+    top: 1.08ch;
     left: 3px;
 
 }
