@@ -8,6 +8,18 @@
 </head>
 
 <body>
+    <div id="playerModal" class="modal">
+        <div class="modal-content">
+            <h3>Zarządzaj graczami</h3>
+            <div class="modal-controls">
+                <input type="text" id="playerNameInput" placeholder="Wpisz imię gracza">
+                <input type="button" id="addPlayerBtn" value="Dodaj">
+            </div>
+            <ul id="modalPlayerList"></ul>
+            <input type="button" id="closeModalBtn" value="Zamknij / Graj">
+            <p class="modal-info">Zostaw pustą listę, aby grać bez zliczania punktów.</p>
+        </div>
+    </div>
 
     <div class="left">
         <div class="spin">
@@ -18,12 +30,13 @@
         </div>
         
         <div class="control">
-            <input type="password" class="phraseInput">
+            <input type="password" class="phraseInput" placeholder="Własne hasło...">
             <input type="button" value="Graj" class="playButton">
+            <input type="button" value="Gracze" class="playersButton">
         </div>
 
         <div class="guessing">
-            <input type="text" class="letterInput" maxlength="1">
+            <input type="text" class="letterInput" maxlength="1" placeholder="Litera">
             <input type="button" value="Zgadnij" class="guessButton">
         </div>
 
@@ -35,7 +48,10 @@
     </div>
 
     <div class="main">
-        <p class="phrasal"></p>
+        <div class="game-area">
+            <p class="phrasal"></p>
+            <div id="scoreboard"></div>
+        </div>
     </div>
 
     <div class="right">
@@ -44,7 +60,6 @@
             <div class="pointer"></div>  
         </div>  
     </div>
-
 
     <script src="main.js"></script>
 </body>

@@ -32,9 +32,16 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     caret-color: transparent;
 }
 
+.game-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
 .phrasal{
     font-size: 52px;
@@ -42,6 +49,7 @@ body{
     word-spacing: 20px;
     line-height: 1px;
     text-align: center;
+    margin-bottom: 80px;
 }
 
 .log{
@@ -53,6 +61,7 @@ body{
     width: 300px;
     height: 170px;
     overflow-y: auto;
+    word-wrap: break-word;
 }
 
 .guessing{
@@ -61,8 +70,8 @@ body{
 
 .log p{
     margin-left: 15px;
+    margin-bottom: 5px;
 }
-
 
 input[type=button]
 {
@@ -80,7 +89,6 @@ input[type=button]
     font-size: 16px;
     border-radius: .25rem;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-
 }
 
 input[type=button]:hover 
@@ -88,6 +96,12 @@ input[type=button]:hover
     color: #fff;
     background-color: #358900;
     border-color: #389100;
+}
+
+input[type=button]:disabled {
+    background-color: #555;
+    border-color: #444;
+    cursor: not-allowed;
 }
 
 input[type=text], input[type=password]
@@ -117,7 +131,6 @@ input[type=text]:focus, input[type=password]:focus{
     justify-content: center;
     align-items: center;
     position: relative;
-    
 }
 
 .pointer {
@@ -129,10 +142,10 @@ input[type=text]:focus, input[type=password]:focus{
     background: rgba(0, 0, 0, 0);
     z-index: 1;
 
-  border-left: 0.66vw solid transparent;
-  border-right: 0.66vw solid transparent;
+    border-left: 0.66vw solid transparent;
+    border-right: 0.66vw solid transparent;
   
-  border-top: 4.5vw solid rgb(76, 76, 17);
+    border-top: 4.5vw solid rgb(76, 76, 17);
 }
 
 .wheel {
@@ -146,15 +159,13 @@ input[type=text]:focus, input[type=password]:focus{
     transition: transform;
     transition-duration: 6s;
     transform: rotate(0deg);
-    transition-timing-function: cubic-bezier(.15,0,.13,1)
-    /* border-radius: 50% */
+    transition-timing-function: cubic-bezier(.15,0,.13,1);
 }
 
 .spinner{
     position: relative;
     width: 100%;
 }
-
 
 .tile{
     min-width: 40px;
@@ -174,7 +185,6 @@ input[type=text]:focus, input[type=password]:focus{
     position: absolute;
     top: 1.08ch;
     left: 3px;
-
 }
 
 .empty{
@@ -189,7 +199,119 @@ input[type=text]:focus, input[type=password]:focus{
     margin: 15px;
 }
 
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
 
+.modal-content {
+    background-color: #313338;
+    padding: 30px;
+    border: 3px solid #253063;
+    border-radius: 8px;
+    color: #fff;
+    text-align: center;
+    min-width: 350px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.modal-content h3 {
+    margin-bottom: 20px;
+    color: #49c100;
+}
+
+.modal-controls {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+#modalPlayerList {
+    list-style: none;
+    margin-bottom: 20px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+#modalPlayerList li {
+    background-color: #253063;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-info {
+    margin-top: 15px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+#scoreboard {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.player-card {
+    background-color: #313338;
+    border: 3px solid #253063;
+    padding: 15px 25px;
+    border-radius: 10px;
+    text-align: center;
+    color: #fff;
+    min-width: 120px;
+    transition: all 0.3s ease;
+}
+
+.player-card.active {
+    border-color: #49c100;
+    box-shadow: 0 0 15px #49c100;
+    transform: scale(1.05);
+}
+
+.player-card .name {
+    font-weight: bold;
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    color: #49c100;
+}
+
+.player-card .round-score {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+    font-family: 'Consolas', monospace;
+}
+
+.player-card .bank {
+    font-size: 1em;
+    color: #888;
+    border-top: 1px solid #555;
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+.control, .guessing {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
 
 @media only screen and (max-width: 800px) {
     body{
@@ -206,36 +328,35 @@ input[type=text]:focus, input[type=password]:focus{
       
       border-top: 14vw solid rgb(0, 0, 0);
     }
+}
 
-  }
-
-  .spin {
+.spin {
     width: 80%;
     display: flex;
     flex-direction: column;
-  }
+}
 
-  #myProgress {
+#myProgress {
     background-color: rgb(31, 32, 35);
     margin-top: 5px;
     border-radius: 4px;
-  }
+}
   
-  #myBar {
+#myBar {
     width: 0%;
     height: 30px;
     background-color: #04AA6D;
     border-radius: 4px;
-  }
+}
 
-  @keyframes powerbar {
+@keyframes powerbar {
     0%   {background-color: rgb(0, 255, 0); width:0%;}
     100% {background-color: rgb(255, 0, 0); width:100%;}
-  }
+}
 
-  .whenLoading {
+.whenLoading {
     animation-name: powerbar;
     animation-duration: 2s;
     animation-timing-function: linear;
     animation-fill-mode: forwards;
-  }
+}
