@@ -37,6 +37,7 @@ let whichField = 0;
 // System graczy
 let players = [];
 let currentPlayerIndex = 0;
+let startingPlayerIndex = 0; // Zmienna pilnująca kto zaczyna rundę
 
 wheelValues.reverse(); 
 inputsWhenNoGame();
@@ -188,11 +189,10 @@ function letterGuessing() {
     }
 
     let isVowel = vowels.includes(letter);
-    
     if (isVowel) {
         if (players.length > 0 && players[currentPlayerIndex].roundScore < 200) {
             sendMessage(`Za mało punktów! Samogłoska kosztuje 200.`);
-            return; // Przerywamy akcję, gracz musi zakręcić lub zgadnąć spółgłoskę
+            return; 
         }
         if (wheelValues[whichField] != "GRAJ DALEJ") {
             sendMessage(`Pobrano 200 punktów za samogłoskę.`);
@@ -207,7 +207,7 @@ function letterGuessing() {
     for(let i = 0; i < len; i++){
         if(hiddenPhrase[i] == letter) {
             sendMessage(`Ta litera jest już odsłonięta.`);
-            nextTurn(); // Utrata kolejki za podanie odsłoniętej litery
+            nextTurn(); 
             return;
         }
         if(phrase[i] == letter){
@@ -229,7 +229,7 @@ function letterGuessing() {
             }
             
             let earnedPoints = counter * pts;
-            sendMessage(`Uzyskano ${earnedPoints} punktów.`); // Wyświetlanie prawidłowej wartości
+            sendMessage(`Uzyskano ${earnedPoints} punktów.`); 
             
             if (players.length > 0) {
                 players[currentPlayerIndex].roundScore += earnedPoints;
@@ -280,7 +280,7 @@ function letterGuessing() {
 function gameStart() {
     eventLog.innerHTML = "";
     sendMessage("Rozpoczęto nową grę.");
-    phrase = ""; // reset starego hasła
+    phrase = ""; 
 
     if(phraseInput.value == "" && data && data.phrases){
         const dataLength = data.phrases.length;
@@ -310,10 +310,18 @@ function gameStart() {
     gameStarted = true;
     
     if (players.length > 0) {
-        currentPlayerIndex = 0;
+        // Zabezpieczenie gdyby usunięto graczy w międzyczasie
+        if (startingPlayerIndex >= players.length) {
+            startingPlayerIndex = 0;
+        }
+        
+        currentPlayerIndex = startingPlayerIndex; // Ustawiamy odpowiedniego gracza
         players.forEach(p => p.roundScore = 0);
         updateScoreboard();
         sendMessage(`Grę rozpoczyna: ${players[currentPlayerIndex].name}`);
+        
+        // Przygotowujemy index na kolejną rundę
+        startingPlayerIndex = (startingPlayerIndex + 1) % players.length;
     }
 
     inputsWhenGame();
