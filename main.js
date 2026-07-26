@@ -173,6 +173,7 @@ function nextTurn() {
 function letterGuessing() {
     if(!gameStarted) return;
     
+    // Blokada odgadywania gdy gracz nie wymusił nowej tury po stracie
     if (wheelValues[whichField] == "STOP" || wheelValues[whichField] == "BANKRUT") {
         sendMessage(`Nie można odgadywać. Zakręć kołem!`);
         return;
@@ -187,11 +188,16 @@ function letterGuessing() {
     }
 
     let isVowel = vowels.includes(letter);
+    
     if (isVowel) {
+        if (players.length > 0 && players[currentPlayerIndex].roundScore < 200) {
+            sendMessage(`Za mało punktów! Samogłoska kosztuje 200.`);
+            return; // Przerywamy akcję, gracz musi zakręcić lub zgadnąć spółgłoskę
+        }
         if (wheelValues[whichField] != "GRAJ DALEJ") {
-            sendMessage(`Samogłoska kosztuje 200 punktów.`);
+            sendMessage(`Pobrano 200 punktów za samogłoskę.`);
             if(players.length > 0) {
-                players[currentPlayerIndex].roundScore = Math.max(0, players[currentPlayerIndex].roundScore - 200);
+                players[currentPlayerIndex].roundScore -= 200;
                 updateScoreboard();
             }
         }
@@ -201,7 +207,7 @@ function letterGuessing() {
     for(let i = 0; i < len; i++){
         if(hiddenPhrase[i] == letter) {
             sendMessage(`Ta litera jest już odsłonięta.`);
-            nextTurn();
+            nextTurn(); // Utrata kolejki za podanie odsłoniętej litery
             return;
         }
         if(phrase[i] == letter){
@@ -214,19 +220,21 @@ function letterGuessing() {
         refreshDisplay(hiddenPhrase);
         sendMessage(`Ta litera występuje ${counter} raz(y).`);
 
-        if (!isVowel && players.length > 0) {
+        if (!isVowel) {
             let pts = 0;
             if (["NAGRODA", "NIESPODZIANKA", "GRAJ DALEJ"].includes(wheelValues[whichField])) {
                 pts = 500;
             } else {
                 pts = parseInt(wheelValues[whichField]) || 0;
             }
-            players[currentPlayerIndex].roundScore += counter * pts;
-            updateScoreboard();
-        }
-
-        if (!isVowel) {
-             sendMessage(`Uzyskano punktów z tej rundy za literę!`);
+            
+            let earnedPoints = counter * pts;
+            sendMessage(`Uzyskano ${earnedPoints} punktów.`); // Wyświetlanie prawidłowej wartości
+            
+            if (players.length > 0) {
+                players[currentPlayerIndex].roundScore += earnedPoints;
+                updateScoreboard();
+            }
         }
         
         let onlyVowels = true;
