@@ -213,7 +213,7 @@ function letterGuessing() {
             if (wheelValues[whichField] !== "GRAJ DALEJ") {
                 nextTurn(); 
             } else {
-                sendMessage(`GRAJ DALEJ: Chroni przed utratą kolejki za powtórzenie litery!`);
+                sendMessage(`GRAJ DALEJ ochroniło przed utratą kolejki.`);
             }
             return;
         }
