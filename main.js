@@ -190,11 +190,13 @@ function letterGuessing() {
 
     let isVowel = vowels.includes(letter);
     if (isVowel) {
-        if (players.length > 0 && players[currentPlayerIndex].roundScore < 200) {
-            sendMessage(`Za mało punktów! Samogłoska kosztuje 200.`);
-            return; 
-        }
-        if (wheelValues[whichField] != "GRAJ DALEJ") {
+        if (wheelValues[whichField] === "GRAJ DALEJ") {
+            sendMessage(`Darmowa samogłoska z pola GRAJ DALEJ.`);
+        } else {
+            if (players.length > 0 && players[currentPlayerIndex].roundScore < 200) {
+                sendMessage(`Za mało punktów! Samogłoska kosztuje 200.`);
+                return; 
+            }
             sendMessage(`Pobrano 200 punktów za samogłoskę.`);
             if(players.length > 0) {
                 players[currentPlayerIndex].roundScore -= 200;
@@ -207,7 +209,12 @@ function letterGuessing() {
     for(let i = 0; i < len; i++){
         if(hiddenPhrase[i] == letter) {
             sendMessage(`Ta litera jest już odsłonięta.`);
-            nextTurn(); 
+            
+            if (wheelValues[whichField] !== "GRAJ DALEJ") {
+                nextTurn(); 
+            } else {
+                sendMessage(`GRAJ DALEJ: Chroni przed utratą kolejki za powtórzenie litery!`);
+            }
             return;
         }
         if(phrase[i] == letter){
@@ -272,7 +279,12 @@ function letterGuessing() {
     }
     else {
         sendMessage(`Ta litera nie występuje w haśle.`);
-        nextTurn();
+        
+        if (wheelValues[whichField] !== "GRAJ DALEJ") {
+            nextTurn();
+        } else {
+            sendMessage(`GRAJ DALEJ ochroniło przed utratą kolejki.`);
+        }
     }
 }
 
